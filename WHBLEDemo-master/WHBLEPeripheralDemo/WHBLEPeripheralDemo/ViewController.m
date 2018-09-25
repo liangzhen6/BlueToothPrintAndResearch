@@ -97,14 +97,18 @@
     NSData * data = request.value;
 //    NSDictionary * dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     
+    [self.textField setText:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
+    
+    [peripheral respondToRequest:request withResult:CBATTErrorSuccess];
+
 //    [self.mutData appendData:[dict objectForKey:@"data"]];
-    if (data.length == 3) {
-        NSLog(@"完成写入");
-        self.imageView.image = [UIImage imageWithData:self.mutData];
-    }else{
-        [self.mutData appendData:data];
-        NSLog(@"继续写入");
-    }
+//    if (data.length == 3) {
+//        NSLog(@"完成写入");
+//        self.imageView.image = [UIImage imageWithData:self.mutData];
+//    }else{
+//        [self.mutData appendData:data];
+//        NSLog(@"继续写入");
+//    }
 //    if ([[dict objectForKey:@"flags"] isEqualToString:@"none"]) {
 //        self.imageView.image = [UIImage imageWithData:self.mutData];
 //    }
@@ -123,9 +127,9 @@
 
 /** 通过固定的特征发送数据到中心设备 */
 - (IBAction)didClickPost:(id)sender {
-//    BOOL sendSuccess = [self.peripheralManager updateValue:[self.textField.text dataUsingEncoding:NSUTF8StringEncoding] forCharacteristic:self.characteristic onSubscribedCentrals:nil];
-    NSData * data = UIImageJPEGRepresentation(self.imageView.image, 1);
-        BOOL sendSuccess = [self.peripheralManager updateValue:data forCharacteristic:self.characteristic onSubscribedCentrals:nil];
+    BOOL sendSuccess = [self.peripheralManager updateValue:[self.textField.text dataUsingEncoding:NSUTF8StringEncoding] forCharacteristic:self.characteristic onSubscribedCentrals:nil];
+//    NSData * data = UIImageJPEGRepresentation(self.imageView.image, 1);
+//        BOOL sendSuccess = [self.peripheralManager updateValue:data forCharacteristic:self.characteristic onSubscribedCentrals:nil];
     if (sendSuccess) {
         NSLog(@"数据发送成功");
     }else {
